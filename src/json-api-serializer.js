@@ -265,7 +265,7 @@ function normalizeLinkage(linkage) {
   if(!linkage.type) { return linkage.id; }
   return {
     id: linkage.id,
-    type: Ember.String.camelize(linkage.type.singularize())
+    type: Ember.String.camelize(Ember.String.singularize(linkage.type))
   };
 }
 function getLinkageId(linkage) {
