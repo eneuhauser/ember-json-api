@@ -11,8 +11,10 @@ module('integration/specs/creating-an-individual-resource', {
         data: {
           type: 'posts',
           id: '1',
-          title: 'Rails is Omakase',
-          'post-summary': 'summary'
+          attributes: {
+            title: 'Rails is Omakase',
+            'post-summary': 'summary'
+          }
         }
       }
     };
@@ -32,8 +34,10 @@ module('integration/specs/creating-an-individual-resource', {
 asyncTest("POST /posts/1 won't push an array", function() {
   var request = {
     data: {
-      title: 'Rails is Omakase',
-      'post-summary': null,
+      attributes: {
+        title: 'Rails is Omakase',
+        'post-summary': null,
+      },
       links: {
         comments: {
           linkage: []

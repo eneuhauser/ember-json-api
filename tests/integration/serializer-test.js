@@ -87,8 +87,10 @@ test('serialize dasherized', function() {
   });
 
   deepEqual(json, {
-    'first-name': 'Tom',
-    'last-name': 'Dale',
+    attributes: {
+      'first-name': 'Tom',
+      'last-name': 'Dale',
+    },
     links: {
       'evil-minions': {
         linkage: []
@@ -137,8 +139,10 @@ test('serialize camelcase', function() {
   });
 
   deepEqual(json, {
-    firstName: 'Tom',
-    lastName: 'Dale',
+    attributes: {
+      firstName: 'Tom',
+      lastName: 'Dale'
+    },
     links: {
       evilMinions: {
         linkage: []
@@ -187,8 +191,10 @@ test('serialize into snake_case', function() {
   });
 
   deepEqual(json, {
-    first_name: 'Tom',
-    last_name: 'Dale',
+    attributes: {
+      first_name: 'Tom',
+      last_name: 'Dale'
+    },
     links: {
       evil_minions: {
         linkage: [],
@@ -204,7 +210,7 @@ test('serialize into snake_case', function() {
 });
 
 test('serializeIntoHash', function() {
-  var json = {};
+  var actual = {};
 
   Ember.run(function(){
     var league = env.store.createRecord(HomePlanet, {
@@ -213,20 +219,24 @@ test('serializeIntoHash', function() {
     });
 
    var snapshot = league._createSnapshot();
-   env.serializer.serializeIntoHash(json, HomePlanet, snapshot);
+   env.serializer.serializeIntoHash(actual, HomePlanet, snapshot);
   });
 
-  deepEqual(json, {
+  var expected = {
     'home-planet': {
-      name: 'Umber',
+      type: 'home-planets',
       links: {
         'super-villains': {
           linkage: []
         }
       },
-      type: 'home-planets'
+      attributes: {
+        'name': 'Umber'
+      }
     }
-  });
+  };
+
+  deepEqual(actual, expected);
 });
 
 test('serializeIntoHash with decamelized types', function() {
@@ -245,7 +255,9 @@ test('serializeIntoHash with decamelized types', function() {
 
   deepEqual(json, {
     'home-planet': {
-      name: 'Umber',
+      attributes: {
+        name: 'Umber'
+      },
       links: {
         'super-villains': {
           linkage: []
@@ -284,8 +296,10 @@ test('serialize has many relationships', function() {
   });
 
   deepEqual(json, {
-    'first-name': 'Dr',
-    'last-name': 'Evil',
+    attributes: {
+      'first-name': 'Dr',
+      'last-name': 'Evil',
+    },
     links: {
       minions: {
         linkage: [{
@@ -328,7 +342,9 @@ test('serialize belongs to relationships', function() {
         }
       }
     },
-    name: 'Bobbie Sue'
+    attributes: {
+      name: 'Bobbie Sue'
+    }
   });
 });
 
@@ -362,7 +378,9 @@ test('serialize polymorphic belongs to relationships', function() {
         }
       }
     },
-    name: 'Billy Joe'
+    attributes: {
+      name: 'Billy Joe'
+    }
   });
 });
 

@@ -32,6 +32,13 @@ DS.JsonApiSerializer = DS.RESTSerializer.extend({
         continue;
       }
 
+      if (key === 'attributes') {
+        for (var attributeKey in hash[key]) {
+          var camelizedKey = Ember.String.camelize(attributeKey);
+          json[camelizedKey] = hash[key][attributeKey];
+        }
+        continue;
+      }
       var camelizedKey = Ember.String.camelize(key);
       json[camelizedKey] = hash[key];
     }
@@ -181,6 +188,14 @@ DS.JsonApiSerializer = DS.RESTSerializer.extend({
 
   serialize: function(snapshot, options) {
     var data = this._super(snapshot, options);
+    data['attributes'] = {};
+    for (var key in data) {
+      if (key === 'links' || key === 'attributes') {
+        continue;
+      }
+      data['attributes'][key] = data[key];
+      delete data[key];
+    }
     if(!data.hasOwnProperty('type') && options && options.type) {
       data.type = Ember.String.pluralize(this.keyForRelationship(options.type));
     }
