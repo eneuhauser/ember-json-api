@@ -75,6 +75,7 @@ test('serialize dasherized', function() {
     });
 
     tom = env.store.createRecord(SuperVillain, {
+      id: '666',
       firstName: 'Tom',
       lastName: 'Dale',
       homePlanet: league
