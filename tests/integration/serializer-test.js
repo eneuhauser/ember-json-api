@@ -84,10 +84,12 @@ test('serialize dasherized', function() {
 
   var json = Ember.run(function(){
     var snapshot = tom._createSnapshot();
-    return env.serializer.serialize(snapshot);
+    return env.serializer.serialize(snapshot, { includeId: true, type: 'super-villian' });
   });
 
   deepEqual(json, {
+    id: '666',
+    type: 'super-villians',
     attributes: {
       'first-name': 'Tom',
       'last-name': 'Dale',

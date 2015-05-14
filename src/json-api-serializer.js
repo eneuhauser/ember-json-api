@@ -190,7 +190,7 @@ DS.JsonApiSerializer = DS.RESTSerializer.extend({
     var data = this._super(snapshot, options);
     data['attributes'] = {};
     for (var key in data) {
-      if (key === 'links' || key === 'attributes') {
+      if (key === 'links' || key === 'attributes' || key === 'id') {
         continue;
       }
       data['attributes'][key] = data[key];
