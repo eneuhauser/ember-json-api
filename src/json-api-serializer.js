@@ -58,8 +58,15 @@ DS.JsonApiSerializer = DS.RESTSerializer.extend({
       delete payload.meta;
     }
     if (payload.links) {
-      // FIXME Need to handle top level links, like pagination
-      //this.extractRelationships(payload.links, payload);
+      var type = data.length > 0 ? data[0].type : null;
+      if (type) {
+        type = Ember.String.camelize(Ember.String.singularize(type))
+        var metadata = {};
+        for (var link in payload.links) {
+          metadata[link] = payload.links[link];
+        }
+        get(this, 'store').setMetadataFor(type, metadata);
+      }
       delete payload.links;
     }
     if (payload[this.sideloadedRecordsKey]) {
