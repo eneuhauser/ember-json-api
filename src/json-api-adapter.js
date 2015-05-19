@@ -105,12 +105,10 @@ DS.JsonApiAdapter = DS.RESTAdapter.extend({
     var hasMany = snapshot.hasMany(relationship.key);
     if (hasMany) {
       hasManyLoaded = hasMany.filter(function(item) { return !item.record.get('currentState.isEmpty'); });
+      if(get(hasManyLoaded, 'length')) {
+        return new Ember.RSVP.Promise(function (resolve, reject) { reject(); });
+      }
     }
-
-    if(get(hasManyLoaded, 'length')) {
-      return new Ember.RSVP.Promise(function (resolve, reject) { reject(); });
-    }
-
     return this._super(store, snapshot, url, relationship);
   },
 
