@@ -103,6 +103,7 @@ DS.JsonApiAdapter = DS.RESTAdapter.extend({
   findHasMany: function(store, snapshot, url, relationship) {
     var hasManyLoaded;
     var hasMany = snapshot.hasMany(relationship.key);
+    console.log('relationship.isReloading', relationship.isReloading);
     if (hasMany && !relationship.isReloading) {
       hasManyLoaded = hasMany.filter(function(item) { return !item.record.get('currentState.isEmpty'); });
       if(get(hasManyLoaded, 'length')) {
@@ -110,6 +111,11 @@ DS.JsonApiAdapter = DS.RESTAdapter.extend({
       }
     }
     return this._super(store, snapshot, url, relationship);
+  },
+
+  findQuery: function(typeName, query) {
+    console.log(typeName, query);
+    return this._super(typeName, query);
   },
 
   /**
