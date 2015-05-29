@@ -38,9 +38,9 @@ asyncTest("POST /posts/1 won't push an array", function() {
         title: 'Rails is Omakase',
         'post-summary': null,
       },
-      links: {
+      relationships: {
         comments: {
-          linkage: []
+          data: []
         }
       },
       type: 'posts'

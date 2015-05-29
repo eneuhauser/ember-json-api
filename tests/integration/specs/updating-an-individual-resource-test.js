@@ -14,11 +14,14 @@ module('integration/specs/updating-an-individual-resource', {
           attributes: {
             title: 'Rails is Omakase'
           },
-          links: {
+          relationships: {
             author: {
-              self: '/posts/1/links/author',
-              related: '/posts/1/author',
-              linkage: {}
+              links: {
+                self: '/posts/1/links/author',
+                related: '/posts/1/author',
+              },
+              data: {
+              }
             }
           }
         }
@@ -50,11 +53,13 @@ module('integration/specs/updating-an-individual-resource', {
             title: 'TDD Is Dead lol',
             'post-summary': 'summary'
           },
-          links: {
+          relationships: {
             author: {
-              self: '/posts/1/links/author',
-              related: '/posts/1/author',
-              linkage: {
+              links: {
+                self: '/posts/1/links/author',
+                related: '/posts/1/author'
+              },
+              data: {
                 type: 'authors',
                 id: '1'
               }
@@ -87,9 +92,9 @@ asyncTest("PATCH /posts/1 won't push an array", function() {
         title: 'TDD Is Dead lol',
         'post-summary': null
       },
-      links: {
+      relationships: {
         comments: {
-          linkage: []
+          data: []
         }
       },
       type: 'posts'
@@ -122,12 +127,12 @@ asyncTest("Update a post with an author", function() {
         title: 'TDD Is Dead lol',
         'post-summary': null,
       },
-      links: {
+      relationships: {
         comments: {
-          linkage: []
+          data: []
         },
         author: {
-          linkage: {
+          data: {
             id: '1',
             type: 'authors'
           }

@@ -94,12 +94,12 @@ test('serialize dasherized', function() {
       'first-name': 'Tom',
       'last-name': 'Dale',
     },
-    links: {
+    relationships: {
       'evil-minions': {
-        linkage: []
+        data: []
       },
       'home-planet': {
-        linkage: {
+        data: {
           id: get(league, 'id'),
           type: 'home-planets'
         }
@@ -146,12 +146,12 @@ test('serialize camelcase', function() {
       firstName: 'Tom',
       lastName: 'Dale'
     },
-    links: {
+    relationships: {
       evilMinions: {
-        linkage: []
+        data: []
       },
       homePlanet: {
-        linkage: {
+        data: {
           id: get(league, 'id'),
           type: 'homePlanets'
         }
@@ -198,12 +198,12 @@ test('serialize into snake_case', function() {
       first_name: 'Tom',
       last_name: 'Dale'
     },
-    links: {
+    relationships: {
       evil_minions: {
-        linkage: [],
+        data: [],
       },
       home_planet: {
-        linkage: {
+        data: {
           id: get(league, 'id'),
           type: 'home_planets'
         }
@@ -228,9 +228,9 @@ test('serializeIntoHash', function() {
   var expected = {
     'home-planet': {
       type: 'home-planets',
-      links: {
+      relationships: {
         'super-villains': {
-          linkage: []
+          data: []
         }
       },
       attributes: {
@@ -261,9 +261,9 @@ test('serializeIntoHash with decamelized types', function() {
       attributes: {
         name: 'Umber'
       },
-      links: {
+      relationships: {
         'super-villains': {
-          linkage: []
+          data: []
         }
       },
       type: 'home-planets'
@@ -303,9 +303,9 @@ test('serialize has many relationships', function() {
       'first-name': 'Dr',
       'last-name': 'Evil',
     },
-    links: {
+    relationships: {
       minions: {
-        linkage: [{
+        data: [{
           id: '123',
           type: 'blue-minions'
         }, {
@@ -337,9 +337,9 @@ test('serialize belongs to relationships', function() {
   });
 
   deepEqual(json, {
-    links: {
+    relationships: {
       husband: {
-        linkage: {
+        data: {
           id: '2',
           type: 'male-minions'
         }
@@ -373,9 +373,9 @@ test('serialize polymorphic belongs to relationships', function() {
   });
 
   deepEqual(json, {
-    links: {
+    relationships: {
       spouse: {
-        linkage: {
+        data: {
           id: '1',
           type: 'female-minions'
         }
@@ -655,9 +655,9 @@ test('looking up a belongsTo association', function() {
     data: [{
       id: '1',
       name: 'Umber',
-      links: {
+      relationships: {
         super_villains: {
-          linkage: [{
+          data: [{
             id: 1,
             type: 'super_villains'
           }]
@@ -667,11 +667,13 @@ test('looking up a belongsTo association', function() {
     }],
     included: [{
       id: '1',
-      first_name: 'Tom',
-      last_name: 'Dale',
-      links: {
+      attributes: {
+        first_name: 'Tom',
+        last_name: 'Dale'
+      },
+      relationships: {
         home_planet: {
-          linkage: {
+          data: {
             id: '1',
             type: 'home_planets'
           }

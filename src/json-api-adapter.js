@@ -118,10 +118,12 @@ DS.JsonApiAdapter = DS.RESTAdapter.extend({
    */
   updateRecord: function(store, type, snapshot) {
     var data = this._serializeData(store, type, snapshot);
+    if (data.data.links) {
+      delete data.data.links;
+    }
     var id = get(snapshot, 'id');
-
     return this.ajax(this.buildURL(type.typeKey, id, snapshot), 'PATCH', {
-      data: data
+      data
     });
   },
 
