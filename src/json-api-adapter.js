@@ -114,7 +114,7 @@ DS.JsonApiAdapter = DS.RESTAdapter.extend({
   },
 
   findQuery: function(typeName, query) {
-    console.log(typeName, query);
+    // console.log(typeName, query);
     return this._super(typeName, query);
   },
 
