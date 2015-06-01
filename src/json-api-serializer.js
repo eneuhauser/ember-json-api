@@ -238,7 +238,9 @@ DS.JsonApiSerializer = DS.RESTSerializer.extend({
     type = this.keyForSnapshot(belongsTo);
     key = this.keyForRelationship(attr);
 
-    json.links = json.relationships || {};
+    if (!json.links) {
+      json.links = json.relationships || {};
+    }
     json.links[key] = belongsToLink(key, type, get(belongsTo, 'id'));
   },
 
