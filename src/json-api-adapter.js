@@ -123,7 +123,7 @@ DS.JsonApiAdapter = DS.RESTAdapter.extend({
     }
     var id = get(snapshot, 'id');
     return this.ajax(this.buildURL(type.typeKey, id, snapshot), 'PATCH', {
-      data
+      data: data
     });
   },
 
