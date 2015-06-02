@@ -101,12 +101,14 @@ DS.JsonApiAdapter = DS.RESTAdapter.extend({
    * Suppress additional API calls if the relationship was already loaded via an `included` section
    */
   findHasMany: function(store, snapshot, url, relationship) {
-    var hasManyLoaded = snapshot.hasMany(relationship.key).filter(function(item) { return !item.record.get('currentState.isEmpty'); });
-
-    if(get(hasManyLoaded, 'length')) {
-      return new Ember.RSVP.Promise(function (resolve, reject) { reject(); });
+    var hasManyLoaded;
+    var hasMany = snapshot.hasMany(relationship.key);
+    if (hasMany && !relationship.isReloading) {
+      hasManyLoaded = hasMany.filter(function(item) { return !item.record.get('currentState.isEmpty'); });
+      if(get(hasManyLoaded, 'length')) {
+        return new Ember.RSVP.Promise(function (resolve, reject) { reject(); });
+      }
     }
-
     return this._super(store, snapshot, url, relationship);
   },
 
@@ -116,8 +118,10 @@ DS.JsonApiAdapter = DS.RESTAdapter.extend({
    */
   updateRecord: function(store, type, snapshot) {
     var data = this._serializeData(store, type, snapshot);
+    if (data.data.links) {
+      delete data.data.links;
+    }
     var id = get(snapshot, 'id');
-
     return this.ajax(this.buildURL(type.typeKey, id, snapshot), 'PATCH', {
       data: data
     });
