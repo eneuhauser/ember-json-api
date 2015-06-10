@@ -101,10 +101,13 @@ DS.JsonApiAdapter = DS.RESTAdapter.extend({
    * Suppress additional API calls if the relationship was already loaded via an `included` section
    */
   findHasMany: function(store, snapshot, url, relationship) {
-    var hasManyLoaded = snapshot.hasMany(relationship.key).filter(function(item) { return !item.record.get('currentState.isEmpty'); });
+    var hasMany = snapshot.hasMany(relationship.key);
+    if (hasMany) {
+      var hasManyLoaded = snapshot.hasMany(relationship.key).filter(function(item) { return !item.record.get('currentState.isEmpty'); });
 
-    if(get(hasManyLoaded, 'length')) {
-      return new Ember.RSVP.Promise(function (resolve, reject) { reject(); });
+      if(get(hasManyLoaded, 'length')) {
+        return new Ember.RSVP.Promise(function (resolve, reject) { reject(); });
+      }
     }
 
     return this._super(store, snapshot, url, relationship);
