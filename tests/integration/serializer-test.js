@@ -92,7 +92,7 @@ test('serialize dasherized', function() {
     type: 'super-villians',
     attributes: {
       'first-name': 'Tom',
-      'last-name': 'Dale',
+      'last-name': 'Dale'
     },
     relationships: {
       'evil-minions': {
