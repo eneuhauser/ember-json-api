@@ -142,6 +142,7 @@ test('serialize camelcase', function() {
   });
 
   deepEqual(json, {
+    type: 'superVillains',
     attributes: {
       firstName: 'Tom',
       lastName: 'Dale'
@@ -177,11 +178,11 @@ test('serialize into snake_case', function() {
   });
 
   env.serializer.keyForAttribute = function(key) {
-    return Ember.String.decamelize(key);
+    return Ember.String.underscore(key);
   };
 
   env.serializer.keyForRelationship = function(key, relationshipKind) {
-    return Ember.String.decamelize(key);
+    return Ember.String.underscore(key);
   };
 
   env.serializer.keyForSnapshot = function(snapshot) {
@@ -194,6 +195,7 @@ test('serialize into snake_case', function() {
   });
 
   deepEqual(json, {
+    type: 'super_villains',
     attributes: {
       first_name: 'Tom',
       last_name: 'Dale'
@@ -299,6 +301,7 @@ test('serialize has many relationships', function() {
   });
 
   deepEqual(json, {
+    type: 'mega-villains',
     attributes: {
       'first-name': 'Dr',
       'last-name': 'Evil'
@@ -337,6 +340,7 @@ test('serialize belongs to relationships', function() {
   });
 
   deepEqual(json, {
+    type: 'female-minions',
     relationships: {
       husband: {
         data: {
@@ -373,6 +377,7 @@ test('serialize polymorphic belongs to relationships', function() {
   });
 
   deepEqual(json, {
+    type: 'male-minions',
     relationships: {
       spouse: {
         data: {
@@ -385,74 +390,6 @@ test('serialize polymorphic belongs to relationships', function() {
       name: 'Billy Joe'
     }
   });
-});
-
-test('normalize camelCased', function() {
-  var superVillain_hash = {
-    firstName: 'Tom',
-    lastName: 'Dale',
-    links: {
-      homePlanet: {
-        linkage: {
-          id: '123',
-          type: 'homePlanets'
-        }
-      },
-      evilMinions: {
-        linkage: [{
-          id: 1,
-          type: 'evilMinions'
-        },
-        {
-          id: 2,
-            type: 'evilMinions'
-        }]
-      }
-    }
-  };
-
-  var json = Ember.run(function() {
-    return env.serializer.normalize(SuperVillain, superVillain_hash, 'superVillain');
-  });
-
-  deepEqual(json, {
-    firstName: 'Tom',
-    lastName: 'Dale',
-    links: {
-      homePlanet: {
-        linkage: {
-          id: '123',
-          type: 'homePlanets'
-        }
-      },
-      evilMinions: {
-        linkage: [{
-          id: 1,
-          type: 'evilMinions'
-        }, {
-          id: 2,
-          type: 'evilMinions'
-        }]
-      }
-    }
-  });
-});
-
-test('normalize links camelized', function() {
-  var homePlanet = {
-    id: '1',
-    name: 'Umber',
-    links: {
-      superVillains: '/api/super_villians/1'
-    },
-    type: 'homePlanets'
-  };
-
-  var json = Ember.run(function() {
-    return env.serializer.normalize(HomePlanet, homePlanet, 'homePlanet');
-  });
-
-  equal(json.links.superVillains,  '/api/super_villians/1', 'normalize links');
 });
 
 test('extractSingle snake_case', function() {

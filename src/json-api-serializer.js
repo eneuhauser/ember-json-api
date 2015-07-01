@@ -193,6 +193,7 @@ DS.JsonApiSerializer = DS.RESTSerializer.extend({
 
   serialize: function(snapshot, options) {
     var data = this._super(snapshot, options);
+    var type = (options ? options.type : null) || snapshot.modelName;
     data['attributes'] = {};
     for (var key in data) {
       if (key === 'links' || key === 'attributes' || key === 'id' || key === 'type' || key === 'relationships') {
@@ -210,8 +211,8 @@ DS.JsonApiSerializer = DS.RESTSerializer.extend({
       data['attributes'][key] = data[key];
       delete data[key];
     }
-    if (!data.hasOwnProperty('type') && options && options.type) {
-      data.type = Ember.String.pluralize(this.keyForRelationship(options.type));
+    if (!data.hasOwnProperty('type') && type) {
+      data.type = Ember.String.pluralize(this.keyForRelationship(type));
     }
     return data;
   },
