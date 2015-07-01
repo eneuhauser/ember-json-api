@@ -18,7 +18,7 @@ module('integration/specs/multiple-resource-links-test', {
                       author: {
                         links: {
                           self: '/posts/1/relationships/author',
-                          related: '/posts/1/author',
+                          related: '/posts/1/author'
                         },
                         data: {
                           type: 'authors',
@@ -96,7 +96,7 @@ asyncTest('GET /posts/1 calls later GET /posts/1/comments when Posts has async c
            var post2 = records.objectAt(1);
            var promises = [];
 
-           promises.push(new Promise(function(resolve, reject) { resolve('asdf'); }));
+           promises.push(new Ember.RSVP.Promise(function(resolve, reject) { resolve('asdf'); }));
            promises.push(post1.get('author'));
            promises.push(post1.get('author').then(function(author) {
               equal(author.get('name'), 'dhh', 'post1 author');
