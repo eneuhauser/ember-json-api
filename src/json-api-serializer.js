@@ -137,7 +137,6 @@ DS.JsonApiSerializer = DS.RESTSerializer.extend({
     var link, association, id, route, relationshipLink, cleanedRoute;
 
     // Clear the old format
-    resource.relationships = {};
     resource.links = {};
 
     for (link in links) {
@@ -174,6 +173,7 @@ DS.JsonApiSerializer = DS.RESTSerializer.extend({
         resource[link] = id;
       }
     }
+    return resource.links;
   },
 
   removeHost: function(url) {
